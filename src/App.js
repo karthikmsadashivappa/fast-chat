@@ -6,6 +6,10 @@ import { tokenUrl, instanceLocator } from './config';
 
 class App extends React.Component {
 
+  state = {
+    messages: []
+  }
+
   componentDidMount() {
     var chatManager = new Chatkit.ChatManager({
         instanceLocator,
@@ -21,7 +25,9 @@ class App extends React.Component {
           roomId: 10387571,
           hooks: {
             onNewMessage: message => {
-              console.log('message.text: ', message.text);
+              this.setState({
+                  messages: [...this.state.messages, message]
+              })
             }
           }
         });
@@ -30,7 +36,7 @@ class App extends React.Component {
 
   render() {
     return(
-      <MessageList />
+      <MessageList messages={this.state.messages}/>
     )
   }
 }
